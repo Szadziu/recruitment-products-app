@@ -7,6 +7,7 @@ import { renderError } from './ui/error';
 import { renderEmpty } from './ui/empty';
 import { renderFilters, getCategories, type FiltersState } from './ui/filters';
 import { renderPagination } from './ui/pagination';
+import { readStateFromUrl, writeStateToUrl } from './state/url';
 
 const PAGE_SIZE = 9;
 
@@ -29,8 +30,13 @@ const productsContainer = document.querySelector<HTMLElement>('#products')!;
 const paginationContainer = document.querySelector<HTMLElement>('#pagination')!;
 
 let allProducts: Product[] = [];
-const filtersState: FiltersState = { category: '', minPrice: null, maxPrice: null };
-let currentPage = 1;
+const initialUrlState = readStateFromUrl();
+const filtersState: FiltersState = {
+  category: initialUrlState.category,
+  minPrice: initialUrlState.minPrice,
+  maxPrice: initialUrlState.maxPrice,
+};
+let currentPage = initialUrlState.page;
 
 function applyFilters(): void {
   const filtered = allProducts.filter((product) => {
@@ -43,6 +49,8 @@ function applyFilters(): void {
   if (filtered.length === 0) {
     renderEmpty(productsContainer);
     paginationContainer.innerHTML = '';
+    currentPage = 1;
+    writeStateToUrl({ ...filtersState, page: currentPage });
     return;
   }
 
@@ -55,6 +63,7 @@ function applyFilters(): void {
     currentPage = page;
     applyFilters();
   });
+  writeStateToUrl({ ...filtersState, page: currentPage });
 }
 
 function setupFilters(products: Product[]): void {
