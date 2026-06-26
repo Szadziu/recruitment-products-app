@@ -1,4 +1,7 @@
 import './styles/main.scss';
+import { fetchProducts } from './api/products';
+import { renderLoading } from './ui/loading';
+import { renderProducts } from './ui/productList';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 
@@ -13,3 +16,18 @@ app.innerHTML = `
     <nav class="pagination" id="pagination" aria-label="Paginacja"></nav>
   </main>
 `;
+
+const productsContainer = document.querySelector<HTMLElement>('#products')!;
+
+async function init(): Promise<void> {
+  renderLoading(productsContainer);
+
+  try {
+    const products = await fetchProducts();
+    renderProducts(productsContainer, products);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+init();
