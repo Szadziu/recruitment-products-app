@@ -1,0 +1,38 @@
+@use "variables" as *;
+
+.app-header {
+  margin-bottom: $spacing-lg;
+
+  h1 {
+    margin: 0;
+    font-size: 1.75rem;
+  }
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  background-color: #fff;
+  border: 1px solid $color-border;
+  border-radius: 6px;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: $spacing-md;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: $spacing-sm;
+}
