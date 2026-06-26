@@ -4,6 +4,7 @@ import { fetchProducts } from './api/products';
 import { renderLoading } from './ui/loading';
 import { renderProducts } from './ui/productList';
 import { renderError } from './ui/error';
+import { renderEmpty } from './ui/empty';
 import { renderFilters, getCategories, type FiltersState } from './ui/filters';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
@@ -33,7 +34,12 @@ function applyFilters(): void {
     if (filtersState.maxPrice !== null && product.price > filtersState.maxPrice) return false;
     return true;
   });
-  renderProducts(productsContainer, filtered);
+
+  if (filtered.length === 0) {
+    renderEmpty(productsContainer);
+  } else {
+    renderProducts(productsContainer, filtered);
+  }
 }
 
 function setupFilters(products: Product[]): void {
