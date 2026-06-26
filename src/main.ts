@@ -1,8 +1,10 @@
 import './styles/main.scss';
+import type { Product } from './types/product';
 import { fetchProducts } from './api/products';
 import { renderLoading } from './ui/loading';
 import { renderProducts } from './ui/productList';
 import { renderError } from './ui/error';
+import { renderFilters, getCategories, type FiltersState } from './ui/filters';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 
@@ -18,14 +20,34 @@ app.innerHTML = `
   </main>
 `;
 
+const filtersContainer = document.querySelector<HTMLElement>('#filters')!;
 const productsContainer = document.querySelector<HTMLElement>('#products')!;
+
+let allProducts: Product[] = [];
+const filtersState: FiltersState = { category: '' };
+
+function applyFilters(): void {
+  const filtered = allProducts.filter(
+    (product) => !filtersState.category || product.category === filtersState.category,
+  );
+  renderProducts(productsContainer, filtered);
+}
+
+function setupFilters(products: Product[]): void {
+  const categories = getCategories(products);
+  renderFilters(filtersContainer, categories, filtersState, (newState) => {
+    Object.assign(filtersState, newState);
+    applyFilters();
+  });
+}
 
 async function init(): Promise<void> {
   renderLoading(productsContainer);
 
   try {
-    const products = await fetchProducts();
-    renderProducts(productsContainer, products);
+    allProducts = await fetchProducts();
+    setupFilters(allProducts);
+    applyFilters();
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Wystąpił nieoczekiwany błąd.';
     renderError(productsContainer, message, init);
