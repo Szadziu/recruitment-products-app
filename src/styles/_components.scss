@@ -10,12 +10,20 @@
     color: #555;
   }
 
-  &__select {
+  &__select,
+  &__input {
     padding: 0.4rem 0.6rem;
     border: 1px solid $color-border;
     border-radius: 4px;
     font-size: 0.9rem;
+  }
+
+  &__select {
     min-width: 180px;
+  }
+
+  &__input {
+    width: 100px;
   }
 }
 

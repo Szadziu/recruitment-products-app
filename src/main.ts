@@ -24,12 +24,15 @@ const filtersContainer = document.querySelector<HTMLElement>('#filters')!;
 const productsContainer = document.querySelector<HTMLElement>('#products')!;
 
 let allProducts: Product[] = [];
-const filtersState: FiltersState = { category: '' };
+const filtersState: FiltersState = { category: '', minPrice: null, maxPrice: null };
 
 function applyFilters(): void {
-  const filtered = allProducts.filter(
-    (product) => !filtersState.category || product.category === filtersState.category,
-  );
+  const filtered = allProducts.filter((product) => {
+    if (filtersState.category && product.category !== filtersState.category) return false;
+    if (filtersState.minPrice !== null && product.price < filtersState.minPrice) return false;
+    if (filtersState.maxPrice !== null && product.price > filtersState.maxPrice) return false;
+    return true;
+  });
   renderProducts(productsContainer, filtered);
 }
 
