@@ -5,6 +5,31 @@
   padding: $spacing-lg;
   text-align: center;
   color: #555;
+
+  &--error {
+    color: #b3261e;
+  }
+}
+
+.btn {
+  padding: 0.5rem 1.25rem;
+  border: 1px solid $color-primary;
+  border-radius: 4px;
+  background-color: #fff;
+  color: $color-primary;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover,
+  &:focus-visible {
+    background-color: $color-primary;
+    color: #fff;
+  }
+
+  &--retry {
+    margin-top: $spacing-sm;
+  }
 }
 
 .product-card {
