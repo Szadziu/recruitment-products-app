@@ -21,6 +21,10 @@
   max-height: 85vh;
   overflow-y: auto;
 
+  @media (max-width: $breakpoint-sm) {
+    padding: $spacing-md;
+  }
+
   &__close {
     position: absolute;
     top: $spacing-sm;
@@ -56,6 +60,14 @@
 
     dd {
       margin: 0;
+    }
+
+    @media (max-width: $breakpoint-sm) {
+      grid-template-columns: 1fr;
+
+      dd {
+        margin-bottom: $spacing-sm;
+      }
     }
   }
 }

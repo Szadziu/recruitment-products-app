@@ -6,6 +6,10 @@
   h1 {
     margin: 0;
     font-size: 1.75rem;
+
+    @media (max-width: $breakpoint-sm) {
+      font-size: 1.4rem;
+    }
   }
 }
 
@@ -23,16 +27,27 @@
   background-color: #fff;
   border: 1px solid $color-border;
   border-radius: 6px;
+
+  @media (max-width: $breakpoint-sm) {
+    flex-direction: column;
+  }
 }
 
 .products {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: $spacing-md;
+
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .pagination {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: $spacing-sm;
+  flex-wrap: wrap;
+  text-align: center;
 }
