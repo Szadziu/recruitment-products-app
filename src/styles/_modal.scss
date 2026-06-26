@@ -1,0 +1,61 @@
+@use "variables" as *;
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-md;
+  z-index: 100;
+}
+
+.modal {
+  position: relative;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: $spacing-lg;
+  max-width: 480px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+
+  &__close {
+    position: absolute;
+    top: $spacing-sm;
+    right: $spacing-sm;
+    border: none;
+    background: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #555;
+
+    &:hover,
+    &:focus-visible {
+      color: $color-text;
+    }
+  }
+
+  &__title {
+    margin: 0 0 $spacing-md;
+    padding-right: $spacing-lg;
+  }
+
+  &__details {
+    margin: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: $spacing-sm $spacing-md;
+
+    dt {
+      font-weight: 600;
+      color: #555;
+    }
+
+    dd {
+      margin: 0;
+    }
+  }
+}

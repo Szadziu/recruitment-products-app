@@ -8,6 +8,7 @@ import { renderEmpty } from './ui/empty';
 import { renderFilters, getCategories, type FiltersState } from './ui/filters';
 import { renderPagination } from './ui/pagination';
 import { readStateFromUrl, writeStateToUrl } from './state/url';
+import { openModal } from './ui/modal';
 
 const PAGE_SIZE = 9;
 
@@ -74,6 +75,24 @@ function setupFilters(products: Product[]): void {
     applyFilters();
   });
 }
+
+function openProductModal(target: HTMLElement): void {
+  const card = target.closest<HTMLElement>('.product-card');
+  if (!card) return;
+
+  const product = allProducts.find((item) => item.id === Number(card.dataset.id));
+  if (product) openModal(product);
+}
+
+productsContainer.addEventListener('click', (event) => {
+  openProductModal(event.target as HTMLElement);
+});
+
+productsContainer.addEventListener('keydown', (event) => {
+  if (event.key !== 'Enter' && event.key !== ' ') return;
+  event.preventDefault();
+  openProductModal(event.target as HTMLElement);
+});
 
 async function init(): Promise<void> {
   renderLoading(productsContainer);
