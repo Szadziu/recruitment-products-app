@@ -6,6 +6,9 @@ import { renderProducts } from './ui/productList';
 import { renderError } from './ui/error';
 import { renderEmpty } from './ui/empty';
 import { renderFilters, getCategories, type FiltersState } from './ui/filters';
+import { renderPagination } from './ui/pagination';
+
+const PAGE_SIZE = 9;
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
 
@@ -23,9 +26,11 @@ app.innerHTML = `
 
 const filtersContainer = document.querySelector<HTMLElement>('#filters')!;
 const productsContainer = document.querySelector<HTMLElement>('#products')!;
+const paginationContainer = document.querySelector<HTMLElement>('#pagination')!;
 
 let allProducts: Product[] = [];
 const filtersState: FiltersState = { category: '', minPrice: null, maxPrice: null };
+let currentPage = 1;
 
 function applyFilters(): void {
   const filtered = allProducts.filter((product) => {
@@ -37,15 +42,26 @@ function applyFilters(): void {
 
   if (filtered.length === 0) {
     renderEmpty(productsContainer);
-  } else {
-    renderProducts(productsContainer, filtered);
+    paginationContainer.innerHTML = '';
+    return;
   }
+
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+  if (currentPage > totalPages) currentPage = totalPages;
+
+  const start = (currentPage - 1) * PAGE_SIZE;
+  renderProducts(productsContainer, filtered.slice(start, start + PAGE_SIZE));
+  renderPagination(paginationContainer, currentPage, totalPages, (page) => {
+    currentPage = page;
+    applyFilters();
+  });
 }
 
 function setupFilters(products: Product[]): void {
   const categories = getCategories(products);
   renderFilters(filtersContainer, categories, filtersState, (newState) => {
     Object.assign(filtersState, newState);
+    currentPage = 1;
     applyFilters();
   });
 }

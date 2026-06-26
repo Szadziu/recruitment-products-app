@@ -61,6 +61,20 @@
   &--retry {
     margin-top: $spacing-sm;
   }
+
+  &--page:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.pagination {
+  align-items: center;
+
+  &__info {
+    font-size: 0.9rem;
+    color: #555;
+  }
 }
 
 .product-card {
